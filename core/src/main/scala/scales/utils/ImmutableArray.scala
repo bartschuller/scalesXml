@@ -218,8 +218,8 @@ trait ImmutableArrayT[ +A ] extends ImmutableArrayProxy[A] {
       b.result()
     }
 
-  override def toArray[U >: A : ClassManifest]: Array[U] =
-    if (implicitly[ClassManifest[U]].erasure eq base.getClass.getComponentType) {
+  override def toArray[U >: A : ArrayTag]: Array[U] =
+    if (implicitly[ClassTag[U]].erasure eq base.getClass.getComponentType) {
       if ((offset == 0) && (len == base.length))
 	base.asInstanceOf[Array[U]]
       else {
@@ -423,7 +423,7 @@ case class VectorImpl[ +A ](ar : Vector[A]) extends ImmutableArrayProxy[A] {
 
   override def updated[B >: A, That](index: Int, elem: B)(implicit bf: CanBuildFrom[ImmutableArrayProxy[A], B, That]): That = VectorImpl(ar.updated(index, elem)).asInstanceOf[That]
 
-  override def toArray[U >: A : ClassManifest]: Array[U] = ar.toArray
+  override def toArray[U >: A : ArrayTag]: Array[U] = ar.toArray
 
 }
 

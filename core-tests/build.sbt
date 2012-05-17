@@ -1,6 +1,7 @@
 import scales.sbtplugins.Utils._
 
-resolvers += "Sonatype OSS Repo" at "http://oss.sonatype.org/content/repositories/snapshots"
+resolvers ++= Seq("Sonatype OSS Repo" at "http://oss.sonatype.org/content/repositories/snapshots",
+                  "Local Maven Repository" at Path.userHome.asURL + "/.m2/repository/")
 
 libraryDependencies ++= Seq(
   "org.slf4j" % "slf4j-log4j12" % "1.6.1" % "test",	
@@ -9,7 +10,8 @@ libraryDependencies ++= Seq(
     "java-allocation-instrumenter" % "2.0" % "test",
   // needs to be overriden  
   "com.google.code.gson" % "gson" % "1.7.2" % "test",
-  "com.google.code.caliper" % "caliper" % "1.0-SNAPSHOT" % "test"
+  // caliper jar doesn't seem to be published
+  "com.google.caliper" % "caliper" % "1.0-SNAPSHOT" % "test"
 )
 
 excludeFilter in unmanagedSources <<= scalaVersion{ v => 
